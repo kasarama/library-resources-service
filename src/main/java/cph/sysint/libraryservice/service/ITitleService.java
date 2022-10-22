@@ -9,10 +9,10 @@ import java.util.List;
 public interface ITitleService {
 
     Page<Title> getByCategory(String category, Pageable pageable);
-    List<Title> getByYear(int year);
-    List<Title> getByPublisher(String publisher);
-    List<Title> getByTitle(String title);
-    List<Title> getByPriceRange(double min, double max);
+    List<Title> getByYear(int year, Pageable pageable);
+    Page<Title> getByPublisher(String publisher, Pageable pageable);
+    List<Title> getByTitle(String title, Pageable pageable);
+    List<Title> getByPriceRange(double min, double max, Pageable pageable);
 
     Title getById(int id);
 }

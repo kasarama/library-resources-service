@@ -52,7 +52,7 @@ public class TitleController {
 
     @GetMapping("category/{category}")
     public ResponseEntity<Map<String, Object>> getTitlesByCategoryName(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
-                                                                       @RequestParam(defaultValue = "3") int size) {
+                                                                       @RequestParam(defaultValue = "5") int size) {
 
 
         Pageable pageable = PageRequest.of(page, size);
@@ -66,4 +66,21 @@ public class TitleController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("publisher/{publisher}")
+    public ResponseEntity<Map<String, Object>> getTitlesByPublisherName(@PathVariable String publisher, @RequestParam(defaultValue = "0") int page,
+                                                                        @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Title> currentPage = titleService.getByPublisher(publisher, pageable);
+        List<Title> titles = currentPage.getContent();
+        Map<String, Object> response = new HashMap<>();
+        response.put("titles", titles);
+        response.put("currentPage", currentPage.getNumber());
+        response.put("totalItems", currentPage.getTotalElements());
+        response.put("totalPages", currentPage.getTotalPages());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

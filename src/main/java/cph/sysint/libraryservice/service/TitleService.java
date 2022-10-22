@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,27 +25,27 @@ public class TitleService implements ITitleService {
 
     @Override
     public Page<Title> getByCategory(String category, Pageable pageable) {
-       Category c =  categoryRepository.findCategoryByCategoryName(category);
+        Category c = categoryRepository.findCategoryByCategoryName(category);
         return titleRepository.findAllByCategoryIs(c, pageable);
     }
 
     @Override
-    public List<Title> getByYear(int year) {
+    public List<Title> getByYear(int year, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<Title> getByPublisher(String publisher) {
+    public Page<Title> getByPublisher(String publisher, Pageable pageable) {
+        return titleRepository.findAllByPublisherName(publisher,pageable);
+    }
+
+    @Override
+    public List<Title> getByTitle(String title, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<Title> getByTitle(String title) {
-        return null;
-    }
-
-    @Override
-    public List<Title> getByPriceRange(double min, double max) {
+    public List<Title> getByPriceRange(double min, double max, Pageable pageable) {
         return null;
     }
 

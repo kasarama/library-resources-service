@@ -23,6 +23,7 @@ public class Title extends RepresentationModel {
     private int edition;
     private int year;
     private double price;
+    private int onStock;
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "author_id")
     private Author author;

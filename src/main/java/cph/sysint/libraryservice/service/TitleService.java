@@ -1,5 +1,6 @@
 package cph.sysint.libraryservice.service;
 
+import cph.sysint.libraryservice.control.exeption.NotFoundException;
 import cph.sysint.libraryservice.model.Category;
 import cph.sysint.libraryservice.model.Title;
 import cph.sysint.libraryservice.repository.CategoryRepository;
@@ -8,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class TitleService implements ITitleService {
 
     @Override
     public Page<Title> getByPublisher(String publisher, Pageable pageable) {
-        return titleRepository.findAllByPublisherName(publisher,pageable);
+        return titleRepository.findAllByPublisherName(publisher, pageable);
     }
 
     @Override
@@ -51,6 +52,11 @@ public class TitleService implements ITitleService {
 
     @Override
     public Title getById(int id) {
-        return titleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Title with id " + id + " not found"));
+        return titleRepository.findById(id).orElseThrow(() -> new NotFoundException("Title with id " + id + " not found"));
+    }
+
+    @Override
+    public int decreaseQuantity(int id) throws NotFoundException {
+        return titleRepository.decreaseQuantity(id);
     }
 }

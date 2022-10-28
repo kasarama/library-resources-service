@@ -1,5 +1,6 @@
 package cph.sysint.libraryservice.service;
 
+import cph.sysint.libraryservice.control.exeption.NotFoundException;
 import cph.sysint.libraryservice.dto.GetTitleListResponse;
 import cph.sysint.libraryservice.dto.TitleDTO;
 import cph.sysint.libraryservice.model.Category;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -43,6 +43,7 @@ public class TitleService implements ITitleService {
         Page<Title> page = titleRepository.findAllByPublisherName(publisher, pageable);
         GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
         return response;
+
     }
 
     @Override
@@ -57,17 +58,12 @@ public class TitleService implements ITitleService {
 
 
     @Override
+    public int decreaseQuantity(int id) throws NotFoundException {
+        return titleRepository.decreaseQuantity(id);
+    }
+
     public TitleDTO getById(int id) {
         return new TitleDTO(titleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Title with id " + id + " not found")));
     }
-// Implement response object that will have the attributes that the map below has and return it from the service
-
-    void entityToDtoMapper(Collection<Title> ents, Collection<TitleDTO> dtos) {
-        ents.forEach(e -> {
-            dtos.add(new TitleDTO(e));
-        });
-
-    }
-
 
 }

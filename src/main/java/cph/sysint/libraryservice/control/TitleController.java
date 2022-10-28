@@ -1,5 +1,6 @@
 package cph.sysint.libraryservice.control;
 
+import cph.sysint.libraryservice.dto.GetTitleListResponse;
 import cph.sysint.libraryservice.model.Title;
 import cph.sysint.libraryservice.service.ITitleService;
 import cph.sysint.libraryservice.service.TitleService;
@@ -24,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping(value = "/titles", produces = {MediaType.APPLICATION_JSON_VALUE})
-public class TitleController {
+public class TitleController implements ITitleControl {
 
     private ITitleService titleService;
 
@@ -51,7 +52,7 @@ public class TitleController {
 
 
     @GetMapping("category/{category}")
-    public ResponseEntity<Map<String, Object>> getTitlesByCategoryName(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<GetTitleListResponse> getTitlesByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
                                                                        @RequestParam(defaultValue = "5") int size) {
 
 
@@ -68,8 +69,8 @@ public class TitleController {
     }
 
     @GetMapping("publisher/{publisher}")
-    public ResponseEntity<Map<String, Object>> getTitlesByPublisherName(@PathVariable String publisher, @RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "5") int size) {
+    public ResponseEntity<GetTitleListResponse> getTitlesByPublisher(@PathVariable String publisher, @RequestParam(defaultValue = "0") int page,
+                                                                         @RequestParam(defaultValue = "5") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Title> currentPage = titleService.getByPublisher(publisher, pageable);

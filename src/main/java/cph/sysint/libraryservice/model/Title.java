@@ -34,6 +34,7 @@ public class Title extends RepresentationModel {
             joinColumns = {@JoinColumn(name = "title_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private Set<Category> category;
+    private Integer onStock;
 
 
 }

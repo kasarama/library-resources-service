@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -19,7 +20,7 @@ public class TitleDTO {
     private int edition;
     private int year;
     private double price;
-    private Set<String> categories;
+    private Set<String> categories = new HashSet<>();
 
     public TitleDTO(Title entity) {
         this.id = entity.getId();

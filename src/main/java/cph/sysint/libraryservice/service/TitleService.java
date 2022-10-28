@@ -12,9 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -30,8 +28,9 @@ public class TitleService implements ITitleService {
     public GetTitleListResponse getByCategory(String category, Pageable pageable) {
         Category c = categoryRepository.findCategoryByCategoryName(category);
         // TODO handle not found exception
-
-        return titleRepository.findAllByCategoryIs(c, pageable);
+        Page page = titleRepository.findAllByCategoryIs(c, pageable);
+        GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        return response;
     }
 
     @Override
@@ -41,14 +40,19 @@ public class TitleService implements ITitleService {
 
     @Override
     public GetTitleListResponse getByPublisher(String publisher, Pageable pageable) {
+        Page<Title> page = titleRepository.findAllByPublisherName(publisher, pageable);
+        GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        return response;
+    }
 
-        Page<Title> entities = titleRepository.findAllByPublisherName(publisher, pageable);
+    @Override
+    public GetTitleListResponse getByTitle(String title, Pageable pageable) {
+        return null;
+    }
 
-        List<Title> titles = entities.getContent();
-        List<TitleDTO> dtos = new ArrayList<>();
-        entityToDtoMapper(titles, dtos);
-        return dtos;
-
+    @Override
+    public GetTitleListResponse getByPriceRange(double min, double max, Pageable pageable) {
+        return null;
     }
 
 

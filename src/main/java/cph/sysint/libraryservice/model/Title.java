@@ -23,7 +23,7 @@ public class Title extends RepresentationModel {
     private int edition;
     private int year;
     private double price;
-    private int onStock;
+    private Integer onStock;
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "author_id")
     private Author author;
@@ -35,6 +35,4 @@ public class Title extends RepresentationModel {
             joinColumns = {@JoinColumn(name = "title_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private Set<Category> category;
-
-
 }

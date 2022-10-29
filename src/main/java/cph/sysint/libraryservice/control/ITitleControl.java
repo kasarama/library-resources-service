@@ -10,7 +10,7 @@ public interface ITitleControl {
 
     ResponseEntity<GetTitleListResponse> getTitlesByCategory(String publisher, int page, int size);
 
-    ResponseEntity<EntityModel<TitleDTO>> getTitleById(int id);
+    ResponseEntity<TitleDTO> getTitleById(int id);
 
 
 }

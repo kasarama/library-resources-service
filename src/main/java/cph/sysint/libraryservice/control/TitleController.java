@@ -56,10 +56,12 @@ public class TitleController implements ITitleControl {
 
     private void addLinksToTitle(TitleDTO titleDTO) {
         titleDTO.add(linkTo(TitleController.class).slash(titleDTO.getId()).withSelfRel());
-        titleDTO.getCategories().forEach(category -> {
-            titleDTO.add(linkTo(TitleController.class).slash(category).withRel("titles in '" + category + "' category"));
-        });
-        titleDTO.add(linkTo(TitleController.class).slash(titleDTO.getPublisher()).withRel("titles of '" + titleDTO.getPublisher() + "' publisher"));
+        int i = 0;
+        for (String category : titleDTO.getCategories()) {
+            i++;
+            titleDTO.add(linkTo(TitleController.class).slash("category").slash(category).withRel("category" + i));
+        }
+        titleDTO.add(linkTo(TitleController.class).slash("publisher").slash(titleDTO.getPublisher()).withRel("titles of '" + titleDTO.getPublisher() + "' publisher"));
     }
 
 }

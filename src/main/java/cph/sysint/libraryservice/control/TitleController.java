@@ -1,7 +1,6 @@
 package cph.sysint.libraryservice.control;
 
-import cph.sysint.libraryservice.dto.GetTitleListResponse;
-import cph.sysint.libraryservice.dto.TitleDTO;
+import cph.sysint.libraryservice.dto.*;
 import cph.sysint.libraryservice.service.ITitleService;
 import cph.sysint.libraryservice.service.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,19 +48,44 @@ public class TitleController implements ITitleControl {
                                                                      @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
         GetTitleListResponse response = titleService.getByPublisher(publisher, pageable);
-        response.getTitles().forEach(titleDTO -> addLinksToTitle(titleDTO));
+        response.getTitles().forEach(titleDTO -> titleDTO.add(linkTo(TitleController.class).slash(titleDTO.getId()).withSelfRel()));
         response.add(linkTo(TitleController.class).slash("publisher").slash(publisher).withSelfRel());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("publisher")
+    public ResponseEntity<GetPublishersListResponse> getAllPublishers(@RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        GetPublishersListResponse response = titleService.getAllPublishers(pageable);
+
+        for (PublisherDTO publisherDTO : response.getPublishers()) {
+            publisherDTO.add(linkTo(TitleController.class).slash("publisher").slash(publisherDTO.getPublisher()).withSelfRel());
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("category")
+    public ResponseEntity<GetCategoriesListResponse> getAllCategories(@RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        GetCategoriesListResponse response = titleService.getAllCategories(pageable);
+
+        for (CategoryDTO category : response.getCategories()) {
+            category.add(linkTo(TitleController.class).slash("category").slash(category.getCategory()).withSelfRel());
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private void addLinksToTitle(TitleDTO titleDTO) {
         titleDTO.add(linkTo(TitleController.class).slash(titleDTO.getId()).withSelfRel());
-        int i = 0;
-        for (String category : titleDTO.getCategories()) {
-            i++;
-            titleDTO.add(linkTo(TitleController.class).slash("category").slash(category).withRel("category" + i));
+
+        for (CategoryDTO category : titleDTO.getCategories()) {
+            category.add(linkTo(TitleController.class).slash("category").slash(category.getCategory()).withSelfRel());
         }
-        titleDTO.add(linkTo(TitleController.class).slash("publisher").slash(titleDTO.getPublisher()).withRel("titles of '" + titleDTO.getPublisher() + "' publisher"));
+        titleDTO.getPublisher().add(linkTo(TitleController.class).slash("publisher").slash(titleDTO.getPublisher().getPublisher()).withSelfRel());
+        titleDTO.add(linkTo(TitleController.class).slash("publisher").withRel("allPublishers"));
+        titleDTO.add(linkTo(TitleController.class).slash("category").withRel("allCategories"));
     }
 
 }

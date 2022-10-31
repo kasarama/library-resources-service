@@ -1,8 +1,7 @@
 package cph.sysint.libraryservice.service;
 
 import cph.sysint.libraryservice.control.exeption.NotFoundException;
-import cph.sysint.libraryservice.dto.GetTitleListResponse;
-import cph.sysint.libraryservice.dto.TitleDTO;
+import cph.sysint.libraryservice.dto.*;
 import org.springframework.data.domain.Pageable;
 
 public interface ITitleService {
@@ -19,5 +18,9 @@ public interface ITitleService {
     GetTitleListResponse getByPriceRange(double min, double max, Pageable pageable);
 
     TitleDTO getById(int id);
+
+    GetCategoriesListResponse getAllCategories(Pageable pageable);
+
+    GetPublishersListResponse getAllPublishers(Pageable pageable);
 
 }

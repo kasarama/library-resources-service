@@ -1,0 +1,19 @@
+version: "3.4"
+
+services:
+  library-service:
+    container_name: library-test
+    image: library
+    ports:
+      - "8030:8030"
+    restart: unless-stopped
+    environment:
+      CASE_MANAGEMENT_SERVER_PORT: 8030
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      library:
+
+networks:
+  library:
+    external: true

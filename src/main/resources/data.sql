@@ -1,3 +1,68 @@
+-- Drop tables
+DROP TABLE IF EXISTS public.title_category;
+DROP TABLE IF EXISTS public.category;
+DROP TABLE IF EXISTS public.title;
+DROP TABLE IF EXISTS public.publisher;
+DROP TABLE IF EXISTS public.author;
+
+
+-- public.author definition
+CREATE TABLE public.author (
+                               id serial4 NOT NULL,
+                               last_name varchar(255) NULL,
+                               first_name varchar(255) NULL,
+                               CONSTRAINT author_pkey PRIMARY KEY (id)
+);
+
+-- public.category definition
+CREATE TABLE public.category (
+                                 id serial4 NOT NULL,
+                                 category_name varchar(255) NULL,
+                                 CONSTRAINT category_pkey PRIMARY KEY (id)
+);
+
+
+-- public.publisher definition
+CREATE TABLE public.publisher (
+                                  id serial4 NOT NULL,
+                                  publisher_name varchar(255) NULL,
+                                  CONSTRAINT publisher_pkey PRIMARY KEY (id)
+);
+
+
+-- public.title definition
+CREATE TABLE public.title (
+                              id serial4 NOT NULL,
+                              edition int4 NOT NULL,
+                              on_stock int4 NULL,
+                              price float8 NOT NULL,
+                              title varchar(255) NULL,
+                              "year" int4 NOT NULL,
+                              author_id int4 NULL,
+                              publisher_id int4 NULL,
+                              CONSTRAINT title_pkey PRIMARY KEY (id)
+);
+
+
+-- public.title foreign keys
+ALTER TABLE public.title ADD CONSTRAINT fkcy7tb4c5xk6k4axdpvjlaf870 FOREIGN KEY (publisher_id) REFERENCES public.publisher(id);
+ALTER TABLE public.title ADD CONSTRAINT fklec5wmjpshjl7tyel0muhhex6 FOREIGN KEY (author_id) REFERENCES public.author(id);
+
+
+-- public.title_category definition
+CREATE TABLE public.title_category (
+                                       title_id int4 NOT NULL,
+                                       category_id int4 NOT NULL,
+                                       CONSTRAINT title_category_pkey PRIMARY KEY (title_id, category_id)
+);
+
+
+-- public.title_category foreign keys
+
+ALTER TABLE public.title_category ADD CONSTRAINT fkg923hdmff3ariq9sp1isd5xv3 FOREIGN KEY (title_id) REFERENCES public.title(id);
+ALTER TABLE public.title_category ADD CONSTRAINT fkqlyvxsvbwgr43a2g28kisq20x FOREIGN KEY (category_id) REFERENCES public.category(id);
+
+
 INSERT INTO public.author (last_name,first_name) VALUES
                                                      ('Marquot','Verina'),
                                                      ('Yeardsley','Cristie'),

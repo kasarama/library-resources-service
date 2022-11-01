@@ -1,6 +1,6 @@
 package cph.sysint.libraryservice.service;
 
-import cph.sysint.libraryservice.control.exeption.NotFoundException;
+import cph.sysint.libraryservice.exeption.NotFoundException;
 import cph.sysint.libraryservice.dto.*;
 import cph.sysint.libraryservice.model.Category;
 import cph.sysint.libraryservice.model.Publisher;

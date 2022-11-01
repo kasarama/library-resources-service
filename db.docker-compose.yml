@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14.1-alpine
+    ports:
+      - '5330:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=library_resources
+    networks:
+      library:
+
+networks:
+  library:
+    external: true

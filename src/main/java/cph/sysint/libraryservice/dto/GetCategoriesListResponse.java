@@ -1,6 +1,6 @@
 package cph.sysint.libraryservice.dto;
 
-import cph.sysint.libraryservice.model.Title;
+import cph.sysint.libraryservice.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,24 +14,23 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetTitleListResponse extends RepresentationModel {
-    private List<TitleDTO> titles = new ArrayList<>();
+public class GetCategoriesListResponse extends RepresentationModel {
+
+    private List<CategoryDTO> categories;
     private int currentPage;
     private long totalTitles;
     private int totalPages;
 
-    public GetTitleListResponse(int currentPage, long totalTitles, int totalPages, List<Title> entities) {
+    public GetCategoriesListResponse(int currentPage, long totalTitles, int totalPages, List<Category> entities) {
+        this.categories = new ArrayList<>();
         entities.forEach(e -> {
-            this.titles.add(new TitleDTO(e));
+
+            this.categories.add(new CategoryDTO(e));
         });
         this.currentPage = currentPage;
         this.totalTitles = totalTitles;
         this.totalPages = totalPages;
     }
 
-    public void setTitles(List<Title> entities) {
-        entities.forEach(e -> {
-            this.titles.add(new TitleDTO(e));
-        });
-    }
+
 }

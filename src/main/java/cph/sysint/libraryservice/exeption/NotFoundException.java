@@ -1,4 +1,4 @@
-package cph.sysint.libraryservice.control.exeption;
+package cph.sysint.libraryservice.exeption;
 
 public class NotFoundException extends RuntimeException {
 

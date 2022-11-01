@@ -1,6 +1,6 @@
 package cph.sysint.libraryservice.events;
 
-import cph.sysint.libraryservice.control.dto.BookDto;
+import cph.sysint.libraryservice.dto.BookDto;
 import cph.sysint.libraryservice.service.TitleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package cph.sysint.libraryservice.control.exeption;
+package cph.sysint.libraryservice.exeption;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

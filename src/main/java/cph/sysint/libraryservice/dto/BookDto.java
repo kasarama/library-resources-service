@@ -1,4 +1,4 @@
-package cph.sysint.libraryservice.control.dto;
+package cph.sysint.libraryservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;

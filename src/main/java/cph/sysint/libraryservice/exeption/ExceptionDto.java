@@ -1,4 +1,4 @@
-package cph.sysint.libraryservice.control.exeption;
+package cph.sysint.libraryservice.exeption;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

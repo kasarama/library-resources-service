@@ -1,11 +1,12 @@
 package cph.sysint.libraryservice.service;
 
-import cph.sysint.libraryservice.control.exeption.NotFoundException;
-import cph.sysint.libraryservice.dto.GetTitleListResponse;
-import cph.sysint.libraryservice.dto.TitleDTO;
+import cph.sysint.libraryservice.exeption.NotFoundException;
+import cph.sysint.libraryservice.dto.*;
 import cph.sysint.libraryservice.model.Category;
+import cph.sysint.libraryservice.model.Publisher;
 import cph.sysint.libraryservice.model.Title;
 import cph.sysint.libraryservice.repository.CategoryRepository;
+import cph.sysint.libraryservice.repository.PublisherRepository;
 import cph.sysint.libraryservice.repository.TitleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class TitleService implements ITitleService {
     TitleRepository titleRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    PublisherRepository publisherRepository;
 
 
     @Override
@@ -64,6 +69,23 @@ public class TitleService implements ITitleService {
 
     public TitleDTO getById(int id) {
         return new TitleDTO(titleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Title with id " + id + " not found")));
+    }
+
+    @Override
+    public GetCategoriesListResponse getAllCategories(Pageable pageable) {
+        Page<Category> page = categoryRepository.findAll(pageable);
+        System.out.println(page.getTotalElements());
+        System.out.println(page.getContent().size());
+        GetCategoriesListResponse response = new GetCategoriesListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        return response;
+    }
+
+    @Override
+    public GetPublishersListResponse getAllPublishers(Pageable pageable) {
+        List<PublisherDTO> publisherDTOS = new ArrayList<>();
+        Page<Publisher> page = publisherRepository.findAll(pageable);
+        GetPublishersListResponse response = new GetPublishersListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        return response;
     }
 
 }

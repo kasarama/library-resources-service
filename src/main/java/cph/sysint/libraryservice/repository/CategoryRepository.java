@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
     Category findCategoryByCategoryName(String category);
-
     Page<Category> findAll(Pageable pageable);
 
 }

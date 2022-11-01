@@ -31,11 +31,13 @@ public class TitleService implements ITitleService {
 
     @Override
     public GetTitleListResponse getByCategory(String category, Pageable pageable) {
-        Category c = categoryRepository.findCategoryByCategoryName(category);
-        // TODO handle not found exception
-        Page page = titleRepository.findAllByCategoryIs(c, pageable);
-        GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
-        return response;
+        try {
+            Category c = categoryRepository.findCategoryByCategoryName(category);
+            Page page = titleRepository.findAllByCategoryIs(c, pageable);
+            return new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        } catch (Exception ex) {
+            throw new NotFoundException("No category with the given name: " + category);
+        }
     }
 
     @Override

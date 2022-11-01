@@ -7,6 +7,8 @@ All data is stored in the open source relational database PostgreSQL.
   
 **To run this service use the following commands**  
 
+First build your project so you have a jar file in your target folder which is used to build the container.
+
 ```docker
 docker build -t library-service .
 ``` 

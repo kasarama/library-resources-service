@@ -24,6 +24,7 @@ public class TitleDTO extends RepresentationModel {
     private int edition;
     private int year;
     private double price;
+    private Integer onStock;
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public TitleDTO(Title entity) {
@@ -35,6 +36,7 @@ public class TitleDTO extends RepresentationModel {
         this.edition = entity.getEdition();
         this.year = entity.getYear();
         this.price = entity.getPrice();
+        this.onStock = entity.getOnStock();
         for (Category c : entity.getCategory()
         ) {
             this.categories.add(new CategoryDTO(c));

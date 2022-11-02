@@ -27,4 +27,5 @@ public class NewOrderEvent {
         logger.info("&&& Event [{}] consumed", id);
         titleService.decreaseQuantity(id);
     }
+
 }

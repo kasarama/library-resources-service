@@ -70,15 +70,18 @@ public class TitleService implements ITitleService {
     }
 
     public TitleDTO getById(int id) {
-        return new TitleDTO(titleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Title with id " + id + " not found")));
+        return new TitleDTO(titleRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Title with id " + id + " not found")));
     }
 
     @Override
     public GetCategoriesListResponse getAllCategories(Pageable pageable) {
         Page<Category> page = categoryRepository.findAll(pageable);
-        System.out.println(page.getTotalElements());
-        System.out.println(page.getContent().size());
-        GetCategoriesListResponse response = new GetCategoriesListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        GetCategoriesListResponse response = new GetCategoriesListResponse(
+                page.getNumber(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getContent());
         return response;
     }
 
@@ -86,7 +89,11 @@ public class TitleService implements ITitleService {
     public GetPublishersListResponse getAllPublishers(Pageable pageable) {
         List<PublisherDTO> publisherDTOS = new ArrayList<>();
         Page<Publisher> page = publisherRepository.findAll(pageable);
-        GetPublishersListResponse response = new GetPublishersListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
+        GetPublishersListResponse response = new GetPublishersListResponse(
+                page.getNumber(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getContent());
         return response;
     }
 

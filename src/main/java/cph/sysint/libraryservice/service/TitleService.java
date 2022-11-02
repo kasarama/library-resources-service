@@ -50,7 +50,6 @@ public class TitleService implements ITitleService {
         Page<Title> page = titleRepository.findAllByPublisherName(publisher, pageable);
         GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
         return response;
-
     }
 
     @Override
@@ -66,7 +65,10 @@ public class TitleService implements ITitleService {
 
     @Override
     public int decreaseQuantity(int id) throws NotFoundException {
-        return titleRepository.decreaseQuantity(id);
+        Title title = titleRepository.findById(id).get();
+        title.setOnStock(title.getOnStock()-1);
+        title = titleRepository.save(title);
+        return title.getId();
     }
 
     public TitleDTO getById(int id) {

@@ -2,13 +2,15 @@ package cph.sysint.libraryservice.events;
 
 import cph.sysint.libraryservice.dto.BookDto;
 import cph.sysint.libraryservice.service.TitleService;
+import java.io.IOException;
+import org.apache.kafka.common.metrics.internals.IntGaugeSuite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
+@Component
 public class NewOrderEvent {
 
     @Autowired
@@ -17,10 +19,12 @@ public class NewOrderEvent {
     private static final Logger logger = LoggerFactory.getLogger(NewOrderEvent.class);
 
     @KafkaListener(topics = "bookBought", groupId = "order-group")
-    public void consume(BookDto bookDto) throws IOException {
-        System.out.println("Consumed event with id:" + bookDto.getId());
-        logger.info("&&& Event [{}] consumed", bookDto.getId());
-        titleService.decreaseQuantity(bookDto.getId());
+    public void consume(String bookId) throws IOException {
+        // TODO(magdalena): WHAT THE FUCK
+        bookId = bookId.replaceAll("\"", "");
+        int id = Integer.parseInt(bookId);
+        System.out.println("Consumed event with id:" + id);
+        logger.info("&&& Event [{}] consumed", id);
+        titleService.decreaseQuantity(id);
     }
-
 }

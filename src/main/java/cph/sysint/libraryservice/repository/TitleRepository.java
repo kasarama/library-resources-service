@@ -19,6 +19,6 @@ public interface TitleRepository extends PagingAndSortingRepository<Title, Integ
     Page<Title> findAllByPublisherName(String publisher, Pageable pageable);
 
     @Modifying
-    @Query("UPDATE Title t SET t.onStock = t.onStock - 1 WHERE t.id = ?1")
+    @Query("UPDATE Title t SET t.onStock = t.onStock - 1 WHERE t.id = :id")
     int decreaseQuantity(int id);
 }

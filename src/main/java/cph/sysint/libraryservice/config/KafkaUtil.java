@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-/*
+
 @Component
 public class KafkaUtil {
 
@@ -27,6 +27,7 @@ public class KafkaUtil {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapService);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
 
         return new DefaultKafkaConsumerFactory<>(
                 props,
@@ -44,5 +45,3 @@ public class KafkaUtil {
     }
 
 }
-
-*/

@@ -1,7 +1,7 @@
 package cph.sysint.libraryservice.service;
 
-import cph.sysint.libraryservice.exeption.NotFoundException;
 import cph.sysint.libraryservice.dto.*;
+import cph.sysint.libraryservice.exeption.NotFoundException;
 import cph.sysint.libraryservice.exeption.TitleOutOfStockException;
 import cph.sysint.libraryservice.model.Category;
 import cph.sysint.libraryservice.model.Publisher;
@@ -51,7 +51,6 @@ public class TitleService implements ITitleService {
         Page<Title> page = titleRepository.findAllByPublisherName(publisher, pageable);
         GetTitleListResponse response = new GetTitleListResponse(page.getNumber(), page.getTotalElements(), page.getTotalPages(), page.getContent());
         return response;
-
     }
 
     @Override

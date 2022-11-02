@@ -1,6 +1,7 @@
 package cph.sysint.libraryservice.events;
 
 import cph.sysint.libraryservice.dto.BookDto;
+import cph.sysint.libraryservice.exeption.TitleOutOfStockException;
 import cph.sysint.libraryservice.service.TitleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ public class NewOrderEvent {
     private static final Logger logger = LoggerFactory.getLogger(NewOrderEvent.class);
 
     @KafkaListener(topics = "bookBought", groupId = "order-group")
-    public void consume(BookDto bookDto) throws IOException {
+    public void consume(BookDto bookDto) throws IOException, TitleOutOfStockException {
         System.out.println("Consumed event with id:" + bookDto.getId());
         logger.info("&&& Event [{}] consumed", bookDto.getId());
         titleService.decreaseQuantity(bookDto.getId());

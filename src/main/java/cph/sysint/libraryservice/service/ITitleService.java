@@ -2,10 +2,11 @@ package cph.sysint.libraryservice.service;
 
 import cph.sysint.libraryservice.exeption.NotFoundException;
 import cph.sysint.libraryservice.dto.*;
+import cph.sysint.libraryservice.exeption.TitleOutOfStockException;
 import org.springframework.data.domain.Pageable;
 
 public interface ITitleService {
-    int decreaseQuantity(int id) throws NotFoundException;
+    int decreaseQuantity(int id) throws NotFoundException, TitleOutOfStockException;
 
     GetTitleListResponse getByCategory(String category, Pageable pageable);
 

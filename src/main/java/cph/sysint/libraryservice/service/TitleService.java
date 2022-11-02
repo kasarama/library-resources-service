@@ -2,6 +2,7 @@ package cph.sysint.libraryservice.service;
 
 import cph.sysint.libraryservice.exeption.NotFoundException;
 import cph.sysint.libraryservice.dto.*;
+import cph.sysint.libraryservice.exeption.TitleOutOfStockException;
 import cph.sysint.libraryservice.model.Category;
 import cph.sysint.libraryservice.model.Publisher;
 import cph.sysint.libraryservice.model.Title;
@@ -65,8 +66,15 @@ public class TitleService implements ITitleService {
 
 
     @Override
-    public int decreaseQuantity(int id) throws NotFoundException {
-        return titleRepository.decreaseQuantity(id);
+    public int decreaseQuantity(int id) throws NotFoundException, TitleOutOfStockException {
+        Title title = titleRepository.findById(id).get();
+        int onStock = title.getOnStock();
+        if (onStock >= 0) {
+            throw new TitleOutOfStockException("Title out of Stock");
+        }
+        title.setOnStock(onStock - 1);
+        title = titleRepository.save(title);
+        return title.getId();
     }
 
     public TitleDTO getById(int id) {

@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'echo hello'
+        sh 'echo new hello'
       }
     }
 
@@ -15,7 +15,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'echo publish'
+        sh 'echo new publish'
       }
     }
 
